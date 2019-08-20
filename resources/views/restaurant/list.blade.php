@@ -24,7 +24,7 @@
                 <div class="col-6">{{ $restaurant->name }}</div>
                 <div class="col-6" style="color: white">
                     <a href="{{ Route('restaurant.calendar', ['id'=>$restaurant->id]) }}" class="btn btn-info float-right">Modifier horaires</a>
-                    <a href="#" class="btn btn-dark float-right" style="margin-right: 10px">voir horaires</a></a>
+                    <a href="{{ Route('restaurant.details', ['id'=>$restaurant->id]) }}" class="btn btn-dark float-right" style="margin-right: 10px">voir horaires</a></a>
                 </div>
             </div>
 

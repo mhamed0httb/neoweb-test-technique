@@ -10,12 +10,18 @@ use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
+    /*
+     * fonction qui renvoie la liste de tous les restaurants
+     */
     public function showListRestaurants(Request $request)
     {
         $allRestaurants = Restaurant::all();
         return view('restaurant.list', ['restaurants' => $allRestaurants]);
     }
 
+    /*
+     * fonction qui renvoie la vue du modification des horaires pour un restaurant désigné
+     */
     public function updateRestaurantCalendar($id, Request $request)
     {
         $restaurant = Restaurant::find($id);
@@ -34,6 +40,9 @@ class RestaurantController extends Controller
         return view('restaurant.updateCalendar', ['restaurant' => $restaurant, 'chosenDay' => $day, 'calendar' => $calendar, 'slots' => $slots]);
     }
 
+    /*
+     * fonction pour ajouter un nouvel horaire à un jour spécifique
+     */
     public function postUpdateRestaurantCalendar(Request $request)
     {
         $openTime = $request->get('open_time');
@@ -67,7 +76,7 @@ class RestaurantController extends Controller
 
         } else {
             $slotsCount = Slot::where('id_calendar', $calendar->id)->count();
-            if($calendar->type == config('enums.opening_types')['half-time'] && $slotsCount == 1){
+            if ($calendar->type == config('enums.opening_types')['half-time'] && $slotsCount == 1) {
                 return back()->withErrors(['error' => ['une demi-journée ne peut contenir qu\'un seul horaire']]);
             }
             $slot->id_calendar = $calendar->id;
@@ -80,15 +89,19 @@ class RestaurantController extends Controller
 
     }
 
+    /*
+     * fonction pour supprimer un horaire d'un jour spécifique
+     */
     public function deleteSlot(Request $request)
     {
         $slot = Slot::find($request->get('id_slot'));
-        var_dump($slot);
-        var_dump($request->get('id_slot'));
         $slot->delete();
         return back();
     }
 
+    /*
+     * fonction pour modifier un jour spécifique pour qu'il soit le jour de fermeture
+     */
     public function changeClosingDay(Request $request)
     {
         $calendar = Calendar::where('day', $request->get('day'))->where('id_restaurant', $request->get('id_restaurant'))->first();
@@ -126,6 +139,9 @@ class RestaurantController extends Controller
         return back();
     }
 
+    /*
+     * fonction pour modifier un jour spécifique pour qu'il soit un demi-journé
+     */
     public function changeHalfDay(Request $request)
     {
         $calendar = Calendar::where('day', $request->get('day'))->where('id_restaurant', $request->get('id_restaurant'))->first();
@@ -167,6 +183,29 @@ class RestaurantController extends Controller
         return back();
     }
 
+    /*
+     * fonction pour renvoyer les détails de l'horaire d'un restaurant
+     */
+    public function detailsRestaurant($id, Request $request)
+    {
+        $restaurant = Restaurant::find($id);
+        $result = array();
+
+        $calendars = Calendar::where('id_restaurant', $id)->get();
+        foreach ($calendars as $calendar) {
+            $calendarResult = array();
+
+            $slots = Slot::where('id_calendar', $calendar->id)->get();
+            $calendarResult['type'] = $calendar->type;
+            $calendarResult['slots'] = $slots;
+            $result[$calendar->day] = $calendarResult;
+        }
+        return view('restaurant.details', ['restaurant' => $restaurant, 'result' => $result]);
+    }
+
+    /*
+     * fonction à retourner si un restaurant a un jour de fermeture
+     */
     private function restaurantHasClosingDay($restaurantId)
     {
         $result = null;
@@ -183,6 +222,9 @@ class RestaurantController extends Controller
         return $result;
     }
 
+    /*
+     * fonction à retourner si un restaurant a une demi-jounée
+     */
     private function restaurantHasHalfDay($restaurantId)
     {
         $result = null;
