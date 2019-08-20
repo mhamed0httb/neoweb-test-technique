@@ -19,24 +19,18 @@
     <div class="container">
 
 
-
-        <div class="row" style="border: 1px solid #74787e; padding: 10px">
-            <div class="col-6">sdzf azd</div>
-            <div class="col-6" style="color: white">
-                <a href="#" class="btn btn-info float-right">Modifier horaires</a>
-                <a href="#" class="btn btn-dark float-right" style="margin-right: 10px">voir horaires</a></a>
+        @foreach ($restaurants as $restaurant)
+            <div class="row" style="border: 1px solid #74787e; padding: 10px">
+                <div class="col-6">{{ $restaurant->name }}</div>
+                <div class="col-6" style="color: white">
+                    <a href="{{ Route('restaurant.calendar', ['id'=>$restaurant->id]) }}" class="btn btn-info float-right">Modifier horaires</a>
+                    <a href="#" class="btn btn-dark float-right" style="margin-right: 10px">voir horaires</a></a>
+                </div>
             </div>
-        </div>
 
-        <hr class="my-3">
+            <hr class="my-3">
+        @endforeach
 
-        <div class="row" style="border: 1px solid #74787e; padding: 10px">
-            <div class="col-6">sdzf azd</div>
-            <div class="col-6" style="color: white">
-                <a href="#" class="btn btn-info float-right">Modifier les horaires</a>
-                <a href="#" class="btn btn-dark float-right" style="margin-right: 10px">Voir horaires</a></a>
-            </div>
-        </div>
     </div>
 
 @endsection
