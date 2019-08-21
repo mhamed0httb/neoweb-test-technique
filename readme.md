@@ -1,46 +1,40 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
-
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
 
 ## A propos de ce projet
 
 Ce projet est conçu et développé pour le test technique de l'entreprise neoweb.
-Cette application est développée avec Laravel framework version 5.8.
+Cette application est développée avec [Laravel](https://laravel.com) version 5.8.
 
 ## Installation
 
 pour installer cette application :
 
 - Cloner ce projet
-- tapez la commande : composer install
-- tapez la commande : php artisan restaurants:fill
+- Tapez la commande : ```composer install```
+- Créer un fichier . env et copier env.example et modifier les paramètres de votre base de données.
+- Créer la base de données
+- Tapez la commande : ```php artisan migrate```
+- Tapez la commande : ```php artisan restaurants:fill```
 
-
-La commande restaurants:fill permet de remplir la base de données avec des restaurants.
+La commande ```restaurants:fill``` permet de remplir la base de données avec des restaurants.
 
 ## Solution
 
 La solution consiste à créer deux tables qui gèrent les horaires de restaurant :
-- Table Calendar
-- Table Slots
+- ***Calendar*** : permet de stocker les jours de la semaine du chaque restaurant avec un attribut ```type``` pour specifier si ce jours est fermé, demi-journée ou plusieurs horaires.
+- ***Slots*** : comporte toutes les horaires d'une journée.
 
-La table Calendar permet de stocker les jours de la semaine avec un attribut type pour specifier si ce jours est fermé, demi-journée ou plusieurs horaires.
+1. une liste de tous les restaurants est affichée sur la première page permettant de consulter l’horaire des restaurants ou de le mettre à jour.
+2. chaque jour de la semaine est modifié séparément.
+3. si vous choisissez un jour de fermeture, l'application vérifie si un autre jour est également un jour de fermeture, de sorte qu'il ne reste qu'un jour unique.
+4. si vous choisissez une journée comme demi-journée, l'application vérifie si une autre journée est aussi une demi-journée, de sorte qu'il ne reste qu'une journée unique.
+5. si une journée est une demi-journée, un seul horaire est autorisé.
+6. Il existe deux methodes ```restaurantHasClosingDay``` et ```restaurantHasHalfDay``` pour determiner si un jour est un jour de fermeture ou une demi-jounée.
+7. l'affichage de l'horaire des restaurants est ordonné par jours de la semaine.
 
-La table slots comporte toutes les horaires d'une journée.
+## Technologies
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- [Bootstrap 4](https://getbootstrap.com/)
+- [jQuery](https://jquery.com/)
+- [PHP 7.3.2](https://www.php.net/)
+- [Laravel 5.8](https://laravel.com)
+- [Carbon](https://carbon.nesbot.com/)
