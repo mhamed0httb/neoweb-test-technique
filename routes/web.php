@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'RestaurantController@showListRestaurants')->name('restaurant.list');
+Route::post('/restaurants/create', 'RestaurantController@createRestaurant')->name('restaurant.create');
 Route::get('/restaurants/{id}/calendar', 'RestaurantController@updateRestaurantCalendar')->name('restaurant.calendar');
 Route::post('/restaurants/calendar/update', 'RestaurantController@postUpdateRestaurantCalendar')->name('restaurant.calendar.update');
 Route::post('/restaurants/slot/delete', 'RestaurantController@deleteSlot')->name('slot.delete');

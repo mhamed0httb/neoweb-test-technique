@@ -12,12 +12,23 @@
             -->
         </ol>
     </nav>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_add_restaurant">
+        Ajouter restaurant
+    </button>
 @endsection
 
 @section('pageBody')
 
     <div class="container">
 
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Succès!</strong> {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
 
         @foreach ($restaurants as $restaurant)
             <div class="row" style="border: 1px solid #74787e; padding: 10px">
@@ -31,6 +42,38 @@
             <hr class="my-3">
         @endforeach
 
+    </div>
+
+    <!-- Modal add restaurant -->
+    <div class="modal fade" id="modal_add_restaurant" tabindex="-1" role="dialog" aria-labelledby="add_restaurant_label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add_restaurant_label">Ajouter un nouveau restaurant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="{{ Route('restaurant.create') }}">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="input_restaurant_name">Nom du restaurant</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="input_restaurant_name"
+                                   name="restaurant_name"
+                                   required
+                                   placeholder="Entrer le nom du restaurant">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
 @endsection

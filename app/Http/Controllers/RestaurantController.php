@@ -19,6 +19,15 @@ class RestaurantController extends Controller
         return view('restaurant.list', ['restaurants' => $allRestaurants]);
     }
 
+    public function createRestaurant(Request $request)
+    {
+        $name = $request->get('restaurant_name');
+        $restaurant = new Restaurant();
+        $restaurant->name = $name;
+        $restaurant->save();
+        return redirect()->route('restaurant.list')->with('success', 'Restaurant ' . $name . ' créé avec succès');
+    }
+
     /*
      * fonction qui renvoie la vue du modification des horaires pour un restaurant désigné
      */
